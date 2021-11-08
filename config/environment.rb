@@ -2,6 +2,9 @@ ENV['SINATRA_ENV'] ||= "development"
 
 require 'bundler/setup'
 Bundler.require(:default, ENV['SINATRA_ENV'])
+configure :development do
+  set :database, 'sqlite3:db/development.sqlite'
+end
 
 def fi_check_migration
   begin
@@ -14,6 +17,7 @@ EX_MSG
   end
 end
 
+ENV['SINATRA_ENV'] ||= "development"
 ActiveRecord::Base.establish_connection(
   :adapter => "sqlite3",
   :database => "db/#{ENV['SINATRA_ENV']}.sqlite"
@@ -21,4 +25,4 @@ ActiveRecord::Base.establish_connection(
 
 # require './app/controllers/application_controller'
 require_all 'app'
-# require_all 'lib'
+require_all 'lib'
